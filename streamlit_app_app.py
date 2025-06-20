@@ -1,5 +1,4 @@
 import streamlit as st
-import json
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import pandas as pd
@@ -14,9 +13,9 @@ SCOPES = [
 ]
 
 # === إنشاء الـ Credentials من Secret ===
-# مباشرةً استخدم dict من st.secrets بدون أي json.loads
-creds_dict = dict(st.secrets["gcp_service_account"])
-creds = ServiceAccountCredentials.from_json_keyfile_dict(creds_dict, SCOPES)
+# استخدم القيم من st.secrets مباشرة دون json.loads
+creds_dict = st.secrets["gcp_service_account"]
+creds = ServiceAccountCredentials.from_json_keyfile_dict(dict(creds_dict), SCOPES)
 
 # === تفعيل gspread وقراءة الشيت ===
 gc = gspread.authorize(creds)
