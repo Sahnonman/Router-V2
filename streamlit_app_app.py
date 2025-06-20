@@ -6,14 +6,6 @@ import pandas as pd
 import folium
 from streamlit_folium import st_folium
 
-Collecting usage statistics. To deactivate, set browser.gatherUsageStats to false.
-
-  You can now view your Streamlit app in your browser.
-
-  Local URL: http://localhost:8501
-  Network URL: http://127.0.0.1:8501
-  External URL: http://132.196.22.31:8501
-
 
 # === إعداد الصلاحيات لـ Google Sheets ===
 SCOPES = [
