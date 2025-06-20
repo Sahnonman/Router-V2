@@ -64,7 +64,5 @@ else:
 st.subheader("خريطة السعودية")
 st_folium(m, width=700, height=500)
 
-git add streamlit_app_app.py
-git commit -m "Load Google credentials from secret.raw"
-git push
+
 
