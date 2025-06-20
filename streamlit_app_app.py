@@ -14,8 +14,8 @@ SCOPES = [
 ]
 
 # === إنشاء الـ Credentials من Secret ===
-# مباشرةً استخدم dict من st.secrets بدون أي json.loads
-creds_dict = dict(st.secrets["gcp_service_account"])
+# حمّل بيانات الحساب من st.secrets بصيغة JSON
+creds_dict = json.loads(st.secrets["gcp_service_account"])
 creds = ServiceAccountCredentials.from_json_keyfile_dict(creds_dict, SCOPES)
 
 # === تفعيل gspread وقراءة الشيت ===
