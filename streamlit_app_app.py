@@ -14,9 +14,16 @@ SCOPES = [
 
 # === إنشاء الـ Credentials من Secret ===
 # تأكد أن لديك secret في Streamlit Cloud باسم gcp_service_account
-raw = st.secrets["gcp_service_account"]
-creds_dict = json.loads(raw)
+# === إنشاء الـ Credentials (معدل لملف secret مع raw) ===
+# 1) اقرأ النص المخزّن تحت المفتاح raw داخل الجداول
+raw_json = st.secrets["gcp_service_account"]["raw"]
+
+# 2) فكّ النص إلى dict صالح لـ Google auth
+creds_dict = json.loads(raw_json)
+
+# 3) أنشئ Credentials من dict مباشرة
 creds = ServiceAccountCredentials.from_json_keyfile_dict(creds_dict, SCOPES)
+
 
 # === تفعيل gspread وقراءة الشيت ===
 gc = gspread.authorize(creds)
@@ -56,3 +63,8 @@ else:
 
 st.subheader("خريطة السعودية")
 st_folium(m, width=700, height=500)
+
+git add streamlit_app_app.py
+git commit -m "Load Google credentials from secret.raw"
+git push
+
