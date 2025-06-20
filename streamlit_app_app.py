@@ -14,33 +14,28 @@ SCOPES = [
 
 # === إنشاء الـ Credentials من Secret ===
 # تأكد أن لديك secret في Streamlit Cloud باسم gcp_service_account
-# === إنشاء الـ Credentials (معدل لملف secret مع raw) ===
-# 1) اقرأ النص المخزّن تحت المفتاح raw داخل الجداول
-raw_json = st.secrets["gcp_service_account"]["raw"]
-
-# 2) فكّ النص إلى dict صالح لـ Google auth
-creds_dict = json.loads(raw_json)
-
-# 3) أنشئ Credentials من dict مباشرة
-creds = ServiceAccountCredentials.from_json_keyfile_dict(creds_dict, SCOPES)
-
+raw_json   = st.secrets["gcp_service_account"]["raw"]              # اسحب النص من مفتاح raw
+creds_dict = json.loads(raw_json)                                  # فك الـ JSON
+creds      = ServiceAccountCredentials.from_json_keyfile_dict(      # أنشئ credentials
+    creds_dict,
+    SCOPES
+)
 
 # === تفعيل gspread وقراءة الشيت ===
-gc = gspread.authorize(creds)
+gc         = gspread.authorize(creds)
 SHEET_NAME = "Your_Google_Sheet_Name"  # غيّرها باسم الشيت عندك
-sheet = gc.open(SHEET_NAME).sheet1
+sheet      = gc.open(SHEET_NAME).sheet1
 
 # === واجهة Streamlit ===
 st.title("Truck Router Dashboard")
 
 # مثال: جلب البيانات من الشيت إلى DataFrame
 data = sheet.get_all_records()
-df = pd.DataFrame(data)
+df   = pd.DataFrame(data)
 
 st.subheader("بيانات الشيت")
 st.dataframe(df)
 
-# مثال خريطة فوليم
 # === خريطة السعودية الأساسية مع نقاط البيانات إن وجدت ===
 sa_center = [23.8859, 45.0792]  # مركز السعودية
 m = folium.Map(
@@ -63,6 +58,7 @@ else:
 
 st.subheader("خريطة السعودية")
 st_folium(m, width=700, height=500)
+
 
 
 
